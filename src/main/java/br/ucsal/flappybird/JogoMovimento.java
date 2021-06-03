@@ -16,9 +16,11 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
+import br.ucsal.flappybird.element.Flappy;
+
 public class JogoMovimento extends JPanel implements ActionListener{
 	
-	private Flappy flappy = new Flappy();
+	private Flappy flappy = new Flappy(60, 280, 90, 90);
 //	private int flappyX = 60;
 //	private int flappyY = 280;
 	private int pipeUpX = 930;
