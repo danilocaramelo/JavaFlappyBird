@@ -14,7 +14,7 @@ import javax.swing.plaf.FontUIResource;
     public Principal () {
     	this.setTitle("FlappyBird"); // t�tulo do jogo
     	this.setSize(1200,700); // tamanho da janela
-    	this.add(new Jogo()); //classe Menu
+    	this.add(new JogoMovimento()); //classe Menu
     	this.setResizable(false); // maximizar janela (false) 
     	
     	this.setLocationRelativeTo(null); // inicializar janela no meio da tela 
