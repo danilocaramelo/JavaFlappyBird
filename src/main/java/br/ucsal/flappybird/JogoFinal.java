@@ -9,6 +9,7 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.AffineTransform;
+import java.util.Random;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -22,10 +23,10 @@ public class JogoFinal extends JPanel implements ActionListener{
 	private static final long serialVersionUID = 1L;
 	private int screenW = 1200;
 	private int screenH = 700;
+	private int spaceBetweenPipes = 100;
 	private Flappy flappy = new Flappy(60, 280, 90, 90);
-	private int[] randomY = Pipe.validatePipeSize(screenH);
-	private Pipe bottomPipe = new Pipe(600, randomY[0], 145, screenH);
-	private Pipe topPipe = new Pipe(745, randomY[1], 145, screenH);
+	private Pipe bottomPipe = new Pipe(600, Pipe.randomY(), 145, screenH);
+	private Pipe topPipe = new Pipe(745, (this.bottomPipe.getY() - spaceBetweenPipes), 145, screenH);
 	Timer timer;
 
 	public JogoFinal() {
@@ -65,5 +66,4 @@ public class JogoFinal extends JPanel implements ActionListener{
 		}
 		this.updateUI();
 	}
-
 }
