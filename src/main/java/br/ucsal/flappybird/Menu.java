@@ -3,9 +3,7 @@ package br.ucsal.flappybird;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.Image;
-import java.awt.Label;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -14,6 +12,7 @@ import javax.swing.plaf.FontUIResource;
 
 public class Menu extends JPanel{
 
+	private static final long serialVersionUID = 1L;
 	private JButton play = new JButton("JOGAR"); 
     private JButton comojogar = new JButton("COMO JOGAR");
     private JButton resolucao = new JButton("RESOLUÇÃO");

@@ -7,11 +7,11 @@ public class Flappy extends Element{
 	}
 
 	public void voar() {
-		this.y = y - 30;
+		this.y = y - 40;
 	}
 	
 	public void gravidade() {
-		this.y = y + 5;
+		this.y = y + 7;
 	}
 
 }

@@ -1,6 +1,7 @@
 package br.ucsal.flappybird.element;
 
 import java.awt.Image;
+import java.awt.Rectangle;
 
 import javax.swing.ImageIcon;
 
@@ -24,6 +25,10 @@ public abstract class Element {
 	private Image carregaImagem(String local) {
 		ImageIcon ii = new ImageIcon(getClass().getResource(local));
 		return ii.getImage();
+	}
+	
+	public Rectangle getBounds() {
+		return new Rectangle(x, y, w, h);
 	}
 
 	public int getX() {

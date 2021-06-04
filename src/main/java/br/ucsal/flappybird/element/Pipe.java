@@ -1,7 +1,6 @@
 package br.ucsal.flappybird.element;
 
 import java.awt.geom.AffineTransform;
-import java.util.ArrayList;
 import java.util.Random;
 
 public class Pipe extends Element{
@@ -16,11 +15,15 @@ public class Pipe extends Element{
 		return rotate180;
 	}
 	
-	public static int randomY() {
+	public static int randomY(int limit) {
 		int y;
 		Random gerador = new Random();
 		//TODO gerar número automático
 		y = gerador.nextInt(600);
 		return y;
+	}
+	
+	public void run() {
+		this.x = x -10;
 	}
 }
