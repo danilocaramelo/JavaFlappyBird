@@ -1,20 +1,17 @@
 package br.ucsal.flappybird;
 
-import java.awt.Event;
-import java.awt.Color;
+
 import java.awt.EventQueue;
-import java.awt.Font;
-import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.plaf.FontUIResource;
 
     public class Principal extends JFrame{
     	
-   
-    public Principal () {
+		private static final long serialVersionUID = 1L;
+		
+	public Principal () {
     	this.setTitle("FlappyBird"); // t�tulo do jogo
     	this.setSize(1200,700); // tamanho da janela
-    	this.add(new Jogo()); //classe Menu
+    	this.add(new JogoFinal()); //classe Menu
     	this.setResizable(false); // maximizar janela (false) 
     	
     	this.setLocationRelativeTo(null); // inicializar janela no meio da tela 
