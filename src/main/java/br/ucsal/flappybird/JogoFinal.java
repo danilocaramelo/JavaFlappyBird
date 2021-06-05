@@ -4,40 +4,35 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Label;
+import java.awt.Rectangle;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.geom.AffineTransform;
 import java.util.ArrayList;
-import java.util.Iterator;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
+import br.ucsal.flappybird.element.DoublePipe;
 import br.ucsal.flappybird.element.Flappy;
-import br.ucsal.flappybird.element.Pipe;
 
 public class JogoFinal extends JPanel implements ActionListener{
 
 	private static final long serialVersionUID = 1L;
 	private int screenH = 700;
 	private int spaceBetweenPipes = 150;
-	private ArrayList<Pipe> pipes = new ArrayList<Pipe>();
+	private ArrayList<DoublePipe> pipes = new ArrayList<DoublePipe>();
 	private Flappy flappy = new Flappy(60, 280, 90, 90);
-	private Pipe bottomPipe1 = new Pipe(600, Pipe.randomY(screenH - spaceBetweenPipes), 145, screenH);
-	private Pipe topPipe1 = new Pipe(745, (this.bottomPipe1.getY() - spaceBetweenPipes), 145, screenH);
-	private Pipe bottomPipe2 = new Pipe(1200, Pipe.randomY(screenH - spaceBetweenPipes), 145, screenH);
-	private Pipe topPipe2 = new Pipe(1345, (this.bottomPipe2.getY() - spaceBetweenPipes), 145, screenH);
-	private Pipe bottomPipe3 = new Pipe(1800, Pipe.randomY(screenH - spaceBetweenPipes), 145, screenH);
-	private Pipe topPipe3 = new Pipe(1945, (this.bottomPipe3.getY() - spaceBetweenPipes), 145, screenH);
+	private DoublePipe pairPipe1 = new DoublePipe(600, 745, screenH, spaceBetweenPipes);
+	private DoublePipe pairPipe2 = new DoublePipe(1200, 1345, screenH, spaceBetweenPipes);
+	private DoublePipe pairPipe3 = new DoublePipe(1800, 1945, screenH, spaceBetweenPipes);
 	Timer timer;
 
 	public JogoFinal() {
 		this.add(new Label());
 		setBackground(Color.decode("#018695"));
 		JButton botao = new JButton("VOA");
-		//		botao.setVisible(true);
 		this.add(botao);
 		botao.addActionListener(this);
 		timer = new Timer(100, this);
@@ -52,57 +47,45 @@ public class JogoFinal extends JPanel implements ActionListener{
 
 	private void desenhar(Graphics g) {
 		Graphics2D g2d = (Graphics2D) g;
-
 		g2d.drawImage(flappy.getImagem(), flappy.getX(), flappy.getY(), 
 				flappy.getW(), flappy.getH(), null);
-		pipes.add(bottomPipe1);
-		pipes.add(topPipe1);
-		pipes.add(bottomPipe2);
-		pipes.add(topPipe2);
-		pipes.add(bottomPipe3);
-		pipes.add(topPipe3);
-		int count = 0;
-		AffineTransform rotate0 = g2d.getTransform();
-		for (Iterator<Pipe> iterator = pipes.iterator(); iterator.hasNext();) {
-			Pipe pipe = (Pipe) iterator.next();
-			if (count%2 == 1) {
-				g2d.setTransform(pipe.rotate());
-			} else {
-				g2d.setTransform(rotate0);
-			}
-			g2d.drawImage(pipe.getImagem(), pipe.getX(), pipe.getY(),
-					pipe.getW(), pipe.getH(), null);
-			count++;
+		pipes.add(pairPipe1);
+		pipes.add(pairPipe2);
+		pipes.add(pairPipe3);
+		for (DoublePipe pairPipes : pipes) {
+			pairPipes.desenho(g2d);
 		}
 		Toolkit.getDefaultToolkit().sync();
 	}
 
 	public void actionPerformed(ActionEvent e) {
 		flappy.gravidade();
+		checkCollisions();
 		if (e.getSource() instanceof JButton) {
 			flappy.voar();
 		}
-		int count = 0;
-		//TODO reandomizar o Y dos pipers novamente.
-		for (Iterator<Pipe> iterator = pipes.iterator(); iterator.hasNext();) {
-			Pipe pipe = (Pipe) iterator.next();
-			if(count%2 == 0) {
-				if (pipe.getX() < -290) {
-					pipe.setX(1555);
-				}
-			} else {
-				if (pipe.getX() < -145) {
-					pipe.setX(1700);
+		for (DoublePipe doublePipe : pipes) {
+			if(doublePipe.getBottom().getX() < -290) {
+				doublePipe.refresh(1555, 1700);
 			}
-			}
-			count++;
 		}
-		bottomPipe1.run();
-		topPipe1.run();
-		bottomPipe2.run();
-		topPipe2.run();
-		bottomPipe3.run();
-		topPipe3.run();
+		pairPipe1.run();
+		pairPipe2.run();
+		pairPipe3.run();
 		this.updateUI();
+	}
+	
+	public void checkCollisions() {
+		Rectangle flappyBounds = flappy.getBounds();
+		for (DoublePipe doublePipe : pipes) {
+			Rectangle bottom = doublePipe.getBottom().getBounds();
+//			Rectangle top = doublePipe.getTop().getBounds();
+			if(flappyBounds.intersects(doublePipe.getBottom().getBounds())) {
+				System.out.println("flappy" + flappyBounds.x + " " + flappyBounds.y + " " + flappyBounds.width + " " + flappyBounds.height);
+				System.out.println("bottom" + bottom.x + " " + bottom.y + " " + bottom.width + " " + bottom.height);
+//				System.out.println("top" + top.x + " " + top.y + " " + top.width + " " + top.height);
+				timer.stop();
+			}
+		}
 	}
 }
