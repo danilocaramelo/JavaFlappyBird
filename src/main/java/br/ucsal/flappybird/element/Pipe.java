@@ -9,11 +9,15 @@ public class Pipe extends Element{
 		super(x, y, w, h, "/pipe2.png");
 	}
 	
-	public AffineTransform rotate() {
-		double rotationTo180 = Math.toRadians (180);
-		AffineTransform rotate180 = AffineTransform.getRotateInstance(rotationTo180, x, y);
-		return rotate180;
+	public AffineTransform rotate(int spaceBetween) {
+		this.setY(0);
+		AffineTransform at = AffineTransform.getTranslateInstance((x+145), h);
+		at.scale(0.3, 0.3);
+		at.rotate(Math.toRadians(180));
+		
+		return at;
 	}
+	
 	
 	public static int randomY(int limit) {
 		int y;
@@ -26,4 +30,5 @@ public class Pipe extends Element{
 	public void run() {
 		this.x = x -10;
 	}
+
 }

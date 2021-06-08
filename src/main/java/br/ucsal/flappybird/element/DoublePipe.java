@@ -1,7 +1,6 @@
 package br.ucsal.flappybird.element;
 
 import java.awt.Graphics2D;
-import java.awt.geom.AffineTransform;
 
 public class DoublePipe {
 	
@@ -14,24 +13,33 @@ public class DoublePipe {
 		this.screenH = screenH;
 		this.spaceBetween = spaceBetween;
 		this.bottom = new Pipe(xBottom, Pipe.randomY(screenH - spaceBetween), 145, screenH);
-		this.top = new Pipe(xTop, (this.bottom.getY() - spaceBetween), 145, screenH);
+		this.top = new Pipe(xTop-spaceBetween, (this.bottom.getY() - spaceBetween), 145, screenH);
+		
 	}
 	
 	public void refresh(int xBottom, int xTop) {
 		this.bottom.setX(xBottom);
-		this.top.setX(xTop);
+		this.top.setX(xTop-spaceBetween);
 		this.bottom.setY(Pipe.randomY(screenH - spaceBetween));
 		this.top.setY(this.bottom.getY() - spaceBetween);
 	}
 	
 	public void desenho(Graphics2D g2d) {
-		AffineTransform rotate0 = g2d.getTransform();
+		
 		g2d.drawImage(bottom.getImagem(), bottom.getX(), bottom.getY(),
 				bottom.getW(), bottom.getH(), null);
-		g2d.setTransform(top.rotate());
-		g2d.drawImage(top.getImagem(), top.getX(), top.getY(),
-				top.getW(), top.getH(), null);
-		g2d.setTransform(rotate0);
+		
+		g2d.drawRect(bottom.getX()+spaceBetween, top.getH(), 50, spaceBetween);
+
+		this.top.setH(this.bottom.getY()-spaceBetween);
+		g2d.drawImage(top.getImagem(), top.rotate(spaceBetween), null);
+		
+		debugger(g2d);
+	}
+	
+	private void debugger(Graphics2D g2d) {
+		g2d.drawRect(bottom.getX(), bottom.getY(), bottom.getW(), bottom.getH()); //Debug
+		g2d.drawRect(top.getX(), top.getY(), top.getW(), top.getH()); //Debug
 	}
 	
 	public void run() {
