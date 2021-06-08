@@ -8,9 +8,11 @@ public class Flappy extends Element {
 
 	public void voar() {
 		this.y = y - 40;
+		this.setImagem("/birdUp.png");
 	}
 	
 	public void gravidade() {
 		this.y = y + 7;
+		this.setImagem("/bird.png");
 	}
 }

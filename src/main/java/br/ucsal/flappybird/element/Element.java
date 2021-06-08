@@ -67,8 +67,8 @@ public abstract class Element {
 		return imagem;
 	}
 
-	public void setImagem(Image imagem) {
-		this.imagem = imagem;
+	public void setImagem(String local) {
+		this.imagem = this.carregaImagem(local);
 	}
 	
 	

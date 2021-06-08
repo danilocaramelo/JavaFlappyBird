@@ -1,6 +1,7 @@
 package br.ucsal.flappybird.element;
 
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
 
 public class DoublePipe {
 	
@@ -8,6 +9,8 @@ public class DoublePipe {
 	private Pipe top;
 	private int screenH;
 	private int spaceBetween;
+	
+	public static Rectangle flag;
 	
 	public DoublePipe(int xBottom, int xTop, int screenH, int spaceBetween) {
 		this.screenH = screenH;
@@ -28,13 +31,11 @@ public class DoublePipe {
 		
 		g2d.drawImage(bottom.getImagem(), bottom.getX(), bottom.getY(),
 				bottom.getW(), bottom.getH(), null);
-		
-		g2d.drawRect(bottom.getX()+spaceBetween, top.getH(), 50, spaceBetween);
 
 		this.top.setH(this.bottom.getY()-spaceBetween);
 		g2d.drawImage(top.getImagem(), top.rotate(spaceBetween), null);
 		
-		debugger(g2d);
+		//debugger(g2d);
 	}
 	
 	private void debugger(Graphics2D g2d) {
