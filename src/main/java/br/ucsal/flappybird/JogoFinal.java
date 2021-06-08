@@ -9,12 +9,15 @@ import java.awt.Rectangle;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
+import br.ucsal.flappybird.element.Tmp;
 import br.ucsal.flappybird.element.DoublePipe;
 import br.ucsal.flappybird.element.Flappy;
 
@@ -33,6 +36,8 @@ public class JogoFinal extends JPanel implements ActionListener{
 	private JButton botao;
 
 	Menu Fmenu = new Menu();
+	Tmp tmp = new Tmp();
+	Thread th_tmp;
 
 	private boolean gameover = false;
 	private int points = 0;
@@ -48,6 +53,8 @@ public class JogoFinal extends JPanel implements ActionListener{
 		Fmenu.setPanel(this);
 		
 		this.start();
+		
+		th_tmp = new Thread(tmp);
 
 		botao.addActionListener(this);
 		timer = new Timer(100, this);
@@ -75,7 +82,7 @@ public class JogoFinal extends JPanel implements ActionListener{
 		super.paintComponent(g);
 		desenhar(g);
 	}
-
+	
 	private void desenhar(Graphics g) {
 		Graphics2D g2d = (Graphics2D) g;
 		setDoubleBuffered(true);
@@ -94,8 +101,26 @@ public class JogoFinal extends JPanel implements ActionListener{
 		//debugger(g2d);
 		this.Fmenu.desenhar(g2d, gameover);
 		drawPoint(g2d);
+		clock(g2d);
+		
 
 		Toolkit.getDefaultToolkit().sync();
+	}
+	
+	private void clock(Graphics g2d) {
+		if (!tmp.isInit()) {
+			tmp.setInit(true);
+			th_tmp.start(); //Inicia a Thread
+		} else {
+			if(tmp.isTick()) {
+				Font q = new Font ("Courier New", 1, 30);
+				g2d.setColor(Color.WHITE);
+				g2d.setFont(q);
+				g2d.drawString(LocalDateTime.now().getHour()+":"+
+				LocalDateTime.now().getMinute()+":"+
+				LocalDateTime.now().getSecond(), 0, 20);
+			}
+		}
 	}
 	
 	private void drawPoint(Graphics g2d) {
