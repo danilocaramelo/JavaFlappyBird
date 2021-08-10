@@ -11,14 +11,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
 import br.ucsal.flappybird.element.Tmp;
-import br.ucsal.flappybird.element.DoublePipe;
+import br.ucsal.flappybird.element.DoublePipes;
 import br.ucsal.flappybird.element.Flappy;
 
 public class JogoFinal extends JPanel implements ActionListener{
@@ -27,11 +26,11 @@ public class JogoFinal extends JPanel implements ActionListener{
 	private int screenH = 700;
 	private int spaceBetweenPipes = 150;
 	private int size = 70;
-	private ArrayList<DoublePipe> pipes;
+	private ArrayList<DoublePipes> pipes;
 	private Flappy flappy;
-	private DoublePipe pairPipe1;
-	private DoublePipe pairPipe2;
-	private DoublePipe pairPipe3;
+	private DoublePipes pairPipe1;
+	private DoublePipes pairPipe2;
+	private DoublePipes pairPipe3;
 
 	private JButton botao;
 
@@ -62,13 +61,13 @@ public class JogoFinal extends JPanel implements ActionListener{
 	}
 
 	public void start() {
-		pipes = new ArrayList<DoublePipe>();
+		pipes = new ArrayList<DoublePipes>();
 		flappy = new Flappy(60, 280, size, size);
 		points = 0;
 
-		pairPipe1 = new DoublePipe(600, 745, screenH, spaceBetweenPipes);
-		pairPipe2 = new DoublePipe(1200, 1345, screenH, spaceBetweenPipes);
-		pairPipe3 = new DoublePipe(1800, 1945, screenH, spaceBetweenPipes);
+		pairPipe1 = new DoublePipes(600, 745, screenH, spaceBetweenPipes);
+		pairPipe2 = new DoublePipes(1200, 1345, screenH, spaceBetweenPipes);
+		pairPipe3 = new DoublePipes(1800, 1945, screenH, spaceBetweenPipes);
 
 		pipes.add(pairPipe1);
 		pipes.add(pairPipe2);
@@ -94,7 +93,7 @@ public class JogoFinal extends JPanel implements ActionListener{
 		g2d.drawImage(flappy.getImagem(), flappy.getX(), flappy.getY(), 
 				flappy.getW(), flappy.getH(), null);
 
-		for (DoublePipe pairPipes : pipes) {
+		for (DoublePipes pairPipes : pipes) {
 			pairPipes.desenho(g2d);
 		}
 
@@ -135,7 +134,7 @@ public class JogoFinal extends JPanel implements ActionListener{
 		g2d.drawString("Flappy: "+flappy.getX()+" | "+flappy.getY(), 0, 160); //Debug
 
 		int i = 1, s = 20;
-		for (DoublePipe pairPipes : pipes) {
+		for (DoublePipes pairPipes : pipes) {
 			g2d.drawString("Coluna Bottom"+i+": "+pairPipes.getBottom().getX()+" | "+pairPipes.getBottom().getY(), 0, s);
 			s += 20;
 			g2d.drawString("Coluna Top"+i+": "+pairPipes.getTop().getX()+" | "+pairPipes.getTop().getY(), 0, s);
@@ -158,7 +157,7 @@ public class JogoFinal extends JPanel implements ActionListener{
 				flappy.voar();
 			}
 		}
-		for (DoublePipe doublePipe : pipes) {
+		for (DoublePipes doublePipe : pipes) {
 			if(doublePipe.getBottom().getX() < -290) {
 				doublePipe.refresh(1555, 1700);
 			}
@@ -177,7 +176,7 @@ public class JogoFinal extends JPanel implements ActionListener{
 	public void checkCollisions() {
 		Rectangle flappyBounds = flappy.getBounds();
 		
-		for (DoublePipe doublePipe : pipes) {
+		for (DoublePipes doublePipe : pipes) {
 			Rectangle bottom = doublePipe.getBottom().getBounds();
 			Rectangle top = doublePipe.getTop().getBounds();
 			if(flappyBounds.intersects(top) || flappyBounds.intersects(bottom)) {
